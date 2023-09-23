@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sqlite/app_constant/app_constant.dart';
 import 'package:sqlite/app_model/app_model.dart';
 import 'package:sqlite/person/person_controller.dart';
+import 'package:sqlite/person/person_detail_screen.dart';
 import 'package:sqlite/widget/cm_textedit_field.dart';
 import 'package:sqlite/widget/common_widget.dart';
 
@@ -61,79 +62,84 @@ class _PersonState extends State<Person> {
   }
 
   listViewWidget(int index) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Row(
-          children: [
-            const Expanded(
-              flex: 1,
-              child: Icon(
-                Icons.account_circle,
-                size: 40.0,
+    return GestureDetector(
+      onTap: () {
+        encryptDetail(AppConstant.personList[index]);
+      },
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            children: [
+              const Expanded(
+                flex: 1,
+                child: Icon(
+                  Icons.account_circle,
+                  size: 40.0,
+                ),
               ),
-            ),
-            const SizedBox(
-              width: 10.0,
-            ),
-            Expanded(
-              flex: 6,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppConstant.personList[index].name!,
-                    style: const TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 20.0,
-                        color: Colors.green),
-                  ),
-                  const SizedBox(
-                    height: 10.0,
-                  ),
-                  Text(
-                    AppConstant.personList[index].mobileNumber!.toString(),
-                    style: const TextStyle(
-                        overflow: TextOverflow.ellipsis, fontSize: 16.0),
-                  ),
-                ],
+              const SizedBox(
+                width: 10.0,
               ),
-            ),
-            const Spacer(),
-            Expanded(
-              flex: 3,
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      setControllerValue(AppConstant.personList[index]);
-                    },
-                    child: const Icon(
-                      Icons.edit,
-                      size: 40.0,
-                      color: Colors.cyan,
+              Expanded(
+                flex: 6,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppConstant.personList[index].name!,
+                      style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20.0,
+                          color: Colors.green),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 15.0,
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      await personController
-                          .deletePerson(AppConstant.personList[index].id!);
-                      getPersonDetails();
-                    },
-                    child: const Icon(
-                      Icons.delete,
-                      size: 40.0,
-                      color: Colors.red,
+                    const SizedBox(
+                      height: 10.0,
                     ),
-                  ),
-                ],
+                    Text(
+                      AppConstant.personList[index].mobileNumber!.toString(),
+                      style: const TextStyle(
+                          overflow: TextOverflow.ellipsis, fontSize: 16.0),
+                    ),
+                  ],
+                ),
               ),
-            )
-          ],
+              const Spacer(),
+              Expanded(
+                flex: 3,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setControllerValue(AppConstant.personList[index]);
+                      },
+                      child: const Icon(
+                        Icons.edit,
+                        size: 40.0,
+                        color: Colors.cyan,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 15.0,
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        await personController
+                            .deletePerson(AppConstant.personList[index].id!);
+                        getPersonDetails();
+                      },
+                      child: const Icon(
+                        Icons.delete,
+                        size: 40.0,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -275,5 +281,34 @@ class _PersonState extends State<Person> {
 
   callAddPerson(int? id) {
     addPersonWidget(context, false, id);
+  }
+
+  encryptDetail(PersonDetail personData) async {
+    PersonDetail personDetailData = PersonDetail();
+    personDetailData.name =
+        await personController.encryption(personData.name!, false);
+    personDetailData.gender =
+        await personController.encryption(personData.gender!, false);
+    personDetailData.address =
+        await personController.encryption(personData.address!, false);
+    personDetailData.dob =
+        await personController.encryption(personData.dob!, false);
+    personDetailData.emailAddress =
+        await personController.encryption(personData.emailAddress!, false);
+    personDetailData.mobileNumber =
+        await personController.encryption(personData.mobileNumber!, false);
+    personDetailData.state =
+        await personController.encryption(personData.state!, false);
+    personDetailData.district =
+        await personController.encryption(personData.district!, false);
+    gotoNextPage(personDetailData);
+  }
+
+  gotoNextPage(PersonDetail personDetail) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                PersonDetailScreen(personDetail: personDetail)));
   }
 }
