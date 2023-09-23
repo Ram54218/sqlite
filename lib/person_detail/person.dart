@@ -5,14 +5,14 @@ import 'package:sqlite/person_detail/person_controller.dart';
 import 'package:sqlite/widget/cm_textedit_field.dart';
 import 'package:sqlite/widget/common_widget.dart';
 
-class OfficeList extends StatefulWidget {
-  const OfficeList({super.key});
+class Person extends StatefulWidget {
+  const Person({super.key});
 
   @override
-  State<OfficeList> createState() => _OfficeListState();
+  State<Person> createState() => _PersonState();
 }
 
-class _OfficeListState extends State<OfficeList> {
+class _PersonState extends State<Person> {
   PersonController personController = PersonController();
   TextEditingController id = TextEditingController();
   TextEditingController name = TextEditingController();

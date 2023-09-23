@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sqlite/database/database_helper.dart';
-import 'package:sqlite/person_detail/office_list.dart';
+import 'package:sqlite/person_detail/person.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: OfficeList(),
+      home: Person(),
     );
   }
 }
