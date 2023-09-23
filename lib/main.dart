@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sqlite/database/database_helper.dart';
-import 'package:sqlite/person_detail/person.dart';
+import 'package:sqlite/person/person.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sqlite/app_constant/app_constant.dart';
 import 'package:sqlite/app_model/app_model.dart';
-import 'package:sqlite/person_detail/person_controller.dart';
+import 'package:sqlite/person/person_controller.dart';
 import 'package:sqlite/widget/cm_textedit_field.dart';
 import 'package:sqlite/widget/common_widget.dart';
 
