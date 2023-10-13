@@ -24,6 +24,7 @@ class _PersonState extends State<Person> {
   TextEditingController mobileNo = TextEditingController();
   TextEditingController state = TextEditingController();
   TextEditingController district = TextEditingController();
+  TextEditingController search = TextEditingController();
 
   @override
   void initState() {
@@ -35,8 +36,8 @@ class _PersonState extends State<Person> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("homepage".toUpperCase()),
-      ),
+          title: Text("homepage".toUpperCase()),
+          actions: const [Icon(Icons.search)]),
       body: AppConstant.personList.isNotEmpty
           ? homeWidget(context)
           : const Center(
@@ -260,57 +261,48 @@ class _PersonState extends State<Person> {
     getPersonDetails();
   }
 
-  setControllerValue(PersonDetail personList) async {
-    name.text =
-        await personController.encryption(personList.name.toString(), false);
+  setControllerValue(PersonDetail personList) {
+    name.text = personController.encryption(personList.name.toString(), false);
     gender.text =
-        await personController.encryption(personList.gender.toString(), false);
+        personController.encryption(personList.gender.toString(), false);
     address.text =
-        await personController.encryption(personList.address.toString(), false);
-    dob.text =
-        await personController.encryption(personList.dob.toString(), false);
-    emailAddress.text = await personController.encryption(
-        personList.emailAddress.toString(), false);
-    mobileNo.text = await personController.encryption(
-        personList.mobileNumber.toString(), false);
+        personController.encryption(personList.address.toString(), false);
+    dob.text = personController.encryption(personList.dob.toString(), false);
+    emailAddress.text =
+        personController.encryption(personList.emailAddress.toString(), false);
+    mobileNo.text =
+        personController.encryption(personList.mobileNumber.toString(), false);
     state.text =
-        await personController.encryption(personList.state.toString(), false);
-    district.text = await personController.encryption(
-        personList.district.toString(), false);
-    callAddPerson(personList.id);
-  }
+        personController.encryption(personList.state.toString(), false);
+    district.text =
+        personController.encryption(personList.district.toString(), false);
 
-  callAddPerson(int? id) {
-    addPersonWidget(context, false, id);
+    addPersonWidget(context, false, personList.id);
   }
 
   // Decryption the Data
-  encryptDetail(PersonDetail personData) async {
+  encryptDetail(PersonDetail personData) {
     PersonDetail personDetailData = PersonDetail();
     personDetailData.name =
-        await personController.encryption(personData.name!, false);
+        personController.encryption(personData.name!, false);
     personDetailData.gender =
-        await personController.encryption(personData.gender!, false);
+        personController.encryption(personData.gender!, false);
     personDetailData.address =
-        await personController.encryption(personData.address!, false);
-    personDetailData.dob =
-        await personController.encryption(personData.dob!, false);
+        personController.encryption(personData.address!, false);
+    personDetailData.dob = personController.encryption(personData.dob!, false);
     personDetailData.emailAddress =
-        await personController.encryption(personData.emailAddress!, false);
+        personController.encryption(personData.emailAddress!, false);
     personDetailData.mobileNumber =
-        await personController.encryption(personData.mobileNumber!, false);
+        personController.encryption(personData.mobileNumber!, false);
     personDetailData.state =
-        await personController.encryption(personData.state!, false);
+        personController.encryption(personData.state!, false);
     personDetailData.district =
-        await personController.encryption(personData.district!, false);
-    gotoNextPage(personDetailData);
-  }
+        personController.encryption(personData.district!, false);
 
-  gotoNextPage(PersonDetail personDetail) {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) =>
-                PersonDetailScreen(personDetail: personDetail)));
+                PersonDetailScreen(personDetail: personDetailData)));
   }
 }

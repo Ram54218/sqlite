@@ -35,7 +35,7 @@ class PersonController {
   }
 
   // Encryption and Decryption data
-  encryption(String data, bool isEncryption) async {
+  encryption(String data, bool isEncryption) {
     final key = encrypt.Key.fromUtf8(AppConstant.encryptionKey);
     final iv = encrypt.IV.fromUtf8(AppConstant.encryptionIv);
     final encryptType =
